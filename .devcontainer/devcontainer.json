@@ -1,19 +1,70 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.194.0/containers/typescript-node
 {
-	"name": "Node.js & TypeScript",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"build": {
-		"dockerfile": "Dockerfile"
-	},
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "npm install"
-	// Configure tool-specific properties.
-	// "customizations": {},
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+  "name": "Node+Typescript",
+  "build": {
+    "dockerfile": "Dockerfile",
+    // Update 'VARIANT' to pick a Node version: 12, 14, 16
+    "args": {
+      "VARIANT": "20-bookworm",
+      "CF_USERNAME": "${localEnv:btp_user}",
+      "CF_PASSWORD": "${localEnv:btp_pass}",
+      "GIT_NAME": "${localEnv:git_name}",
+      "GIT_EMAIL": "${localEnv:git_email}"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true
+      },
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "sapse.vscode-cds",
+        "sapse.sap-ux-fiori-tools-extension-pack",
+        "esbenp.prettier-vscode",
+        "alexcvzz.vscode-sqlite",
+        "eamodio.gitlens",
+        "saposs.vscode-ui5-language-assistant",
+        "yzhang.markdown-all-in-one",
+        "linear.linear-open-issue",
+        "dotjoshjohnson.xml",
+        "github.vscode-github-actions",
+        "postman.postman-for-vscode",
+        "mechatroner.rainbow-csv",
+        "linear.linear-connect",
+        "github.copilot-chat",
+        "github.copilot"
+      ]
+    }
+  },
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [8080, 3000, 4004, 8000, 6999, 35729, 4005, 5000, 5001],
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // "postCreateCommand": "npm i -g sqlite3",
+  "postCreateCommand": "git config --global pull.rebase false && git config --global core.autocrlf false && git config --global core.eol lf",
+  "containerEnv": {
+    "CF_USERNAME": "${localEnv:btp_user}",
+    "CF_PASSWORD": "${localEnv:btp_pass}",
+    "git_name": "${localEnv:git_name}",
+    "git_email": "${localEnv:git_email}",
+    "btp_user": "${localEnv:btp_user}",
+    "btp_pass": "${localEnv:btp_pass}"
+  },
+  "remoteEnv": {
+    "CF_USERNAME": "${localEnv:btp_user}",
+    "CF_PASSWORD": "${localEnv:btp_pass}",
+    "git_name": "${localEnv:git_name}",
+    "git_email": "${localEnv:git_email}",
+    "btp_user": "${localEnv:btp_user}",
+    "btp_pass": "${localEnv:btp_pass}"
+  },
+  // "remoteEnv": {
+  //   "PATH": "${containerEnv:PATH}:/some/other/path",
+  //   "MY_REMOTE_VARIABLE": "some-other-value-here",
+  //   "MY_REMOTE_VARIABLE2": "${localEnv:SOME_LOCAL_VAR}"
+  // },
+  // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "node"
 }
